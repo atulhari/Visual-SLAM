@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  vslam:
+    image: vslam
+    build:
+      context: .
+      dockerfile: ./Dockerfile
