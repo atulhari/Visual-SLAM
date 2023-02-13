@@ -12,6 +12,9 @@ ELSE()
 ENDIF()
 
 add_library(intro libSlamIntro.cpp)
+
+include_directories("/usr/include/eigen3")
 add_executable(slamIntro slamIntro.cpp)
 target_link_libraries(slamIntro intro)
+add_executable(eigenMatrix eigenMatrix.cpp)
 

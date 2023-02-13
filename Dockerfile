@@ -22,6 +22,7 @@ COPY /VslamOne .
 
 RUN cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo . && make -j12
 
-CMD ["./slamIntro"]
+# CMD ["./slamIntro"]
+CMD ["./eigenMatrix"]
 
 LABEL Name=vslam Version=0.0.1
