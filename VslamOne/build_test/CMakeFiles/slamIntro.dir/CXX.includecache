@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/atul/Documents/research/vslam/VslamOne/libSlamIntro.hpp
+
+/home/atul/Documents/research/vslam/VslamOne/slamIntro.cpp
+iostream
+-
+libSlamIntro.hpp
+/home/atul/Documents/research/vslam/VslamOne/libSlamIntro.hpp
+
