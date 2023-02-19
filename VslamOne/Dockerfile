@@ -14,15 +14,20 @@ libeigen3-dev
 # and set that as the working location
 ENV PROJECT_DIR = /VslamOne
 WORKDIR ${PROJECT_DIR}
-COPY /VslamOne .
 
-# This command compiles your app using GCC, adjust for your source code
-# RUN cmake -B /VslamOneDeployed -DCMAKE_BUILD_TYPE=RelWithDebInfo . && make -C /VslamOneDeployed -j12
+# Copy the CMakeLists.txt file to the working directory
+COPY CMakeLists.txt .
+
+# Copy the include and src folders to the working directory
+COPY include/ include/
+COPY src/ src/
+
+RUN mkdir VslamOneDeployed && cd VslamOneDeployed && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+
 # ENTRYPOINT [ "/bin/bash" ]
 
-RUN cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo . && make -j12
-
-# CMD ["./slamIntro"]
-CMD ["./eigenMatrix"]
+RUN cd VslamOneDeployed && make
+# CMD ["./VslamOneDeployed/target/slamIntro"]
+CMD ["./VslamOneDeployed/target/eigenMatrix"]
 
 LABEL Name=vslam Version=0.0.1

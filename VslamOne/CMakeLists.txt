@@ -20,24 +20,26 @@ add_library(intro
   src/libSlamIntro.cpp
 )
 
+include_directories("/usr/include/eigen3")
+
+add_executable(slamIntro
+  src/slamIntro.cpp)
+
+target_link_libraries(slamIntro
+  PRIVATE
+  intro)
+  
+add_executable(eigenMatrix
+  src/eigenMatrix.cpp)
+
 # Add the include directory for library A
-target_include_directories(libSlamIntro.hpp
+target_include_directories(slamIntro
   PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-include_directories("/usr/include/eigen3")
-
-add_executable(slamIntro
-  slamIntro.cpp)
-target_link_libraries(slamIntro
-  PRIVATE
-  intro)
-add_executable(eigenMatrix
-  eigenMatrix.cpp)
-
 # Set the build directory to the build folder
-set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
+set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/VslamOneDeployed)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/target)
 
 # Set the library and include directories
@@ -55,12 +57,12 @@ set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/target)
 
 # Optionally set the output name for the main code B
-set_target_properties(slamIntro
-  PROPERTIES
-  OUTPUT_NAME "slamIntro"
-)
+# set_target_properties(slamIntro
+#   PROPERTIES
+#   OUTPUT_NAME "slamIntro"
+# )
 
-set_target_properties(eigenMatrix
-  PROPERTIES
-  OUTPUT_NAME "eigenMatrix"
-)
+# set_target_properties(eigenMatrix
+#   PROPERTIES
+#   OUTPUT_NAME "eigenMatrix"
+# )
