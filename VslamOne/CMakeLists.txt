@@ -1,20 +1,66 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5)
 project(VslamOne)
+
+# Set the C++ standard to C++11
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 message("CMAKE_BUILD_TYPE: ${BUILD_TYPE}")
 
 IF(CMAKE_BUILD_TYPE MATCHES Debug)
-    message("Debug build")
+  message("Debug build")
 ELSEIF(CMAKE_BUILD_TYPE MATCHES Release)
-    message("Release build")
+  message("Release build")
 ELSE()
-    message("Release with Debug information build")
+  message("Release with Debug information build")
 ENDIF()
 
-add_library(intro libSlamIntro.cpp)
+# Add a library intro in the src folder
+add_library(intro
+  src/libSlamIntro.cpp
+)
+
+# Add the include directory for library A
+target_include_directories(libSlamIntro.hpp
+  PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
 include_directories("/usr/include/eigen3")
-add_executable(slamIntro slamIntro.cpp)
-target_link_libraries(slamIntro intro)
-add_executable(eigenMatrix eigenMatrix.cpp)
 
+add_executable(slamIntro
+  slamIntro.cpp)
+target_link_libraries(slamIntro
+  PRIVATE
+  intro)
+add_executable(eigenMatrix
+  eigenMatrix.cpp)
+
+# Set the build directory to the build folder
+set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/target)
+
+# Set the library and include directories
+set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+# Add any additional options or flags as needed
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+
+# Optionally set the installation path
+set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
+
+# Optionally set the output directory for the built targets
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/target)
+
+# Optionally set the output name for the main code B
+set_target_properties(slamIntro
+  PROPERTIES
+  OUTPUT_NAME "slamIntro"
+)
+
+set_target_properties(eigenMatrix
+  PROPERTIES
+  OUTPUT_NAME "eigenMatrix"
+)
