@@ -31,8 +31,7 @@ RUN ./Pangolin/scripts/install_prerequisites.sh recommended
 RUN cmake -B build -GNinja
 RUN cmake --build build
 
-
-RUN mkdir VslamOneDeployed && cd VslamOneDeployed && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+RUN cd VslamOneDeployed && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
 
 # ENTRYPOINT [ "/bin/bash" ]
 
