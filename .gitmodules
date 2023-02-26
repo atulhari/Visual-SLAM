@@ -1,0 +1,3 @@
+[submodule "VslamOne/VslamOne/Pangolin"]
+	path = VslamOne/VslamOne/Pangolin
+	url = https://github.com/stevenlovegrove/Pangolin
