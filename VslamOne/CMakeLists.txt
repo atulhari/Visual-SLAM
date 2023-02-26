@@ -35,6 +35,9 @@ add_executable(eigenMatrix
 add_executable(eigenGeometry
   src/eigenGeometry.cpp)
 
+add_executable(coordinateTransform
+  src/coordinateTransform.cpp)
+
 # Add the include directory for library A
 target_include_directories(slamIntro
   PUBLIC
