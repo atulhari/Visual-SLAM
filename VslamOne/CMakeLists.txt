@@ -28,9 +28,12 @@ add_executable(slamIntro
 target_link_libraries(slamIntro
   PRIVATE
   intro)
-  
+
 add_executable(eigenMatrix
   src/eigenMatrix.cpp)
+
+add_executable(eigenGeometry
+  src/eigenGeometry.cpp)
 
 # Add the include directory for library A
 target_include_directories(slamIntro

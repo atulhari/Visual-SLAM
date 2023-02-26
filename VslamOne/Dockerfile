@@ -28,6 +28,7 @@ RUN mkdir VslamOneDeployed && cd VslamOneDeployed && cmake -DCMAKE_BUILD_TYPE=Re
 
 RUN cd VslamOneDeployed && make
 # CMD ["./VslamOneDeployed/target/slamIntro"]
-CMD ["./VslamOneDeployed/target/eigenMatrix"]
+# CMD ["./VslamOneDeployed/target/eigenMatrix"]
+CMD ["./VslamOneDeployed/target/eigenGeometry"]
 
 LABEL Name=vslam Version=0.0.1
