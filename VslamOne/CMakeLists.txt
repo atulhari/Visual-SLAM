@@ -15,19 +15,20 @@ ELSE()
   message("Release with Debug information build")
 ENDIF()
 
+include_directories("/usr/include/eigen3")
+include_directories("/Pangolin/")
 # Add a library intro in the src folder
 add_library(intro
   src/libSlamIntro.cpp
 )
-
-include_directories("/usr/include/eigen3")
+add_library(draw
+  src/drawTrajectory.cpp)
 
 add_executable(slamIntro
   src/slamIntro.cpp)
 
-target_link_libraries(slamIntro
-  PRIVATE
-  intro)
+add_executable(plotTrajectory
+src/plotTrajectory.cpp)
 
 add_executable(eigenMatrix
   src/eigenMatrix.cpp)
@@ -43,6 +44,17 @@ target_include_directories(slamIntro
   PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
+target_include_directories(plotTrajectory
+  PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+target_link_libraries(plotTrajectory
+  PRIVATE
+  draw
+)
+target_link_libraries(slamIntro
+  PRIVATE
+  intro)
 
 # Set the build directory to the build folder
 set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/VslamOneDeployed)

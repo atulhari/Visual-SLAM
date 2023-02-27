@@ -7,7 +7,7 @@
 # See https://docs.docker.com/samples/library/gcc/ for more on how to use this image
 FROM gcc:latest
 
-RUN apt-get update && apt-get install -y cmake sudo \
+RUN apt-get update && apt-get install -y cmake sudo ninja-build \
 libeigen3-dev
 
 # These commands copy your files into the specified directory in the image
@@ -25,7 +25,7 @@ COPY Pangolin/ Pangolin/
 
 RUN cd Pangolin
 # Install dependencies (as described above, or your preferred method)
-RUN ./Pangolin/scripts/install_prerequisites.sh recommended
+RUN ./Pangolin/scripts/install_prerequisites.sh all
 
 # with Ninja for faster builds (sudo apt install ninja-build)
 RUN cmake -B build -GNinja
@@ -39,5 +39,6 @@ RUN cd VslamOneDeployed && make
 # CMD ["./VslamOneDeployed/target/slamIntro"]
 # CMD ["./VslamOneDeployed/target/eigenMatrix"]
 # CMD ["./VslamOneDeployed/target/eigenGeometry"]
-CMD ["./VslamOneDeployed/target/coordinateTransform"]
+# CMD ["./VslamOneDeployed/target/coordinateTransform"]
+CMD ["./VslamOneDeployed/target/plotTrajectory"]
 LABEL Name=vslam Version=0.0.1
