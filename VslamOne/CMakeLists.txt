@@ -57,7 +57,8 @@ target_link_libraries(slamIntro
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Pangolin/build)
 # Set the build directory to the build folder
 set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/VslamOneDeployed)
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/Target)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/Targets)
+set(LD_LIBRARY_PATH ${LD_LIBRARY_PATH}/usr/local/lib)
 
 # Set the library and include directories
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
