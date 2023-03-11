@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 // Path to the trajectory file
-std::string trajectoryFile = "";
+std::string trajectoryFile = "/VslamOne/data/trajectory.txt";
 
 int main(int argc, char **argv) {
   std::vector<Eigen::Isometry3d, Eigen::aligned_allocator<Eigen::Isometry3d>>
