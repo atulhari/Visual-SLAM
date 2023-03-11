@@ -16,7 +16,8 @@ ELSE()
 ENDIF()
 
 include_directories("/usr/include/eigen3")
-include_directories("/Pangolin/")
+find_package(Pangolin REQUIRED)
+include_directories(${Pangolin_INCLUDE_DIRS})
 # Add a library intro in the src folder
 add_library(intro
   src/libSlamIntro.cpp
@@ -44,21 +45,19 @@ target_include_directories(slamIntro
   PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-target_include_directories(plotTrajectory
-  PUBLIC
-  ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
 target_link_libraries(plotTrajectory
   PRIVATE
   draw
+  ${Pangolin_LIBRARIES}
 )
 target_link_libraries(slamIntro
   PRIVATE
   intro)
 
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Pangolin/build)
 # Set the build directory to the build folder
 set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/VslamOneDeployed)
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/target)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/Target)
 
 # Set the library and include directories
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
@@ -73,14 +72,3 @@ set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
 
 # Optionally set the output directory for the built targets
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/target)
-
-# Optionally set the output name for the main code B
-# set_target_properties(slamIntro
-#   PROPERTIES
-#   OUTPUT_NAME "slamIntro"
-# )
-
-# set_target_properties(eigenMatrix
-#   PROPERTIES
-#   OUTPUT_NAME "eigenMatrix"
-# )
