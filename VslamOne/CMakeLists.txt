@@ -25,6 +25,9 @@ add_library(intro
 add_library(draw
   src/drawTrajectory.cpp)
 
+add_library(visualizeGeometry
+  src/visualizeGeometry.cpp
+)
 add_executable(slamIntro
   src/slamIntro.cpp)
 
