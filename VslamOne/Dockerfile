@@ -10,6 +10,7 @@ FROM gcc:latest
 RUN apt-get update && apt-get install -y cmake sudo ninja-build \
     libeigen3-dev
 ENV PROJECT_DIR=/VslamOne
+ENV LD_LIBRARY_PATH /usr/local/bin
 WORKDIR ${PROJECT_DIR}
 
 # These commands copy your files into the specified directory in the image
@@ -36,7 +37,6 @@ RUN cd Pangolin && git checkout tags/v0.6
 RUN cd Pangolin && mkdir build && cd build && \
     cmake .. && \
     cmake --build . && sudo make install && ldconfig
-
 # Copy the CMakeLists.txt file to the working directory
 COPY CMakeLists.txt .
 
