@@ -25,8 +25,8 @@ add_library(intro
 add_library(draw
   src/drawTrajectory.cpp)
 
-add_library(visualizeGeometry
-  src/visualizeGeometry.cpp
+add_executable(visualizer
+  src/visualizer.cpp
 )
 add_executable(slamIntro
   src/slamIntro.cpp)
@@ -48,9 +48,14 @@ target_include_directories(slamIntro
   PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
+
 target_link_libraries(plotTrajectory
   PRIVATE
   draw
+  ${Pangolin_LIBRARIES}
+)
+target_link_libraries(visualizer
+  PRIVATE
   ${Pangolin_LIBRARIES}
 )
 target_link_libraries(slamIntro
