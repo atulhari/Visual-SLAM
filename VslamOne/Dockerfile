@@ -57,7 +57,7 @@ COPY include/ include/
 COPY src/ src/
 
 RUN mkdir VslamOneDeployed
-# RUN cd VslamOneDeployed && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. && make -j12
+RUN cd VslamOneDeployed && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. && make -j12
 
 # ENTRYPOINT [ "/bin/bash" ]
 
