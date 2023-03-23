@@ -37,6 +37,12 @@ RUN cd Pangolin && git checkout tags/v0.6
 RUN cd Pangolin && mkdir build && cd build && \
     cmake .. && \
     cmake --build . && sudo make install && ldconfig
+
+RUN git clone  https://github.com/strasdat/Sophus.git
+RUN cd Sophus && mkdir build && cd build && \
+    cmake .. && \
+    cmake --build . && sudo make install && ldconfig
+
 # Copy the CMakeLists.txt file to the working directory
 COPY CMakeLists.txt .
 

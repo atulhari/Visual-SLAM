@@ -15,8 +15,12 @@ ELSE()
   message("Release with Debug information build")
 ENDIF()
 
+set(Sophus_DIRS "/Sophus/build")
 include_directories("/usr/include/eigen3")
 find_package(Pangolin REQUIRED)
+find_package(Sophus REQUIRED)
+
+include_directories(${Sophus_INCLUDE_DIRS})
 include_directories(${Pangolin_INCLUDE_DIRS})
 # Add a library intro in the src folder
 add_library(intro
@@ -42,6 +46,9 @@ add_executable(eigenGeometry
 
 add_executable(coordinateTransform
   src/coordinateTransform.cpp)
+
+add_executable(sophusExample
+  src/sophusExample.cpp)
 
 # Add the include directory for library A
 target_include_directories(slamIntro
