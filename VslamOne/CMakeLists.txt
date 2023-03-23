@@ -16,7 +16,7 @@ ELSE()
   message("Release with Debug information build")
 ENDIF()
 
-# set(Sophus_DIRS "/VslamOne/Sophus/build/")
+set(Sophus_INCLUDE_DIRS "/VslamOne/Sophus/build/")
 include_directories("/usr/include/eigen3")
 find_package(Pangolin REQUIRED)
 find_package(Sophus REQUIRED NO_MODULE)
