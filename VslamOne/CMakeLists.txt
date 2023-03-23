@@ -4,6 +4,7 @@ project(VslamOne)
 # Set the C++ standard to C++11
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=deprecated-copy")
 
 message("CMAKE_BUILD_TYPE: ${BUILD_TYPE}")
 
@@ -15,11 +16,10 @@ ELSE()
   message("Release with Debug information build")
 ENDIF()
 
-set(Sophus_DIRS "/Sophus/build")
+# set(Sophus_DIRS "/VslamOne/Sophus/build/")
 include_directories("/usr/include/eigen3")
 find_package(Pangolin REQUIRED)
-find_package(Sophus REQUIRED)
-
+find_package(Sophus REQUIRED NO_MODULE)
 include_directories(${Sophus_INCLUDE_DIRS})
 include_directories(${Pangolin_INCLUDE_DIRS})
 # Add a library intro in the src folder
@@ -65,11 +65,14 @@ target_link_libraries(visualizer
   PRIVATE
   ${Pangolin_LIBRARIES}
 )
+target_link_libraries(sophusExample Sophus::Sophus)
 target_link_libraries(slamIntro
   PRIVATE
-  intro)
+  intro
+)
 
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Pangolin/build)
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Sophus/build)
 # Set the build directory to the build folder
 set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/VslamOneDeployed)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/Targets)
@@ -84,7 +87,5 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 # Optionally set the installation path
-set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
-
-# Optionally set the output directory for the built targets
+set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)# Optionally set the output directory for the built targets
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/target)

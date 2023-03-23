@@ -38,11 +38,16 @@ RUN cd Pangolin && mkdir build && cd build && \
     cmake .. && \
     cmake --build . && sudo make install && ldconfig
 
-RUN git clone  https://github.com/strasdat/Sophus.git
-RUN cd Sophus && mkdir build && cd build && \
+RUN git clone https://github.com/fmtlib/fmt.git
+RUN cd fmt &&  mkdir build && cd build && \
     cmake .. && \
-    cmake --build . && sudo make install && ldconfig
+    cmake --build . && sudo make install
 
+RUN git clone  https://github.com/strasdat/Sophus.git
+# RUN cd Sophus && git checkout tags/v0.9.5
+RUN cd Sophus && mkdir build && cd build && \
+    cmake ..  -DUSE_BASIC_LOGGING=ON -DSOPHUS_USE_BASIC_LOGGING=OFF -DBUILD_SOPHUS_TESTS=OFF -DBUILD_SOPHUS_EXAMPLES=OFF && \
+    make && sudo make install
 # Copy the CMakeLists.txt file to the working directory
 COPY CMakeLists.txt .
 
@@ -52,7 +57,7 @@ COPY include/ include/
 COPY src/ src/
 
 RUN mkdir VslamOneDeployed
-RUN cd VslamOneDeployed && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. && make -j12
+# RUN cd VslamOneDeployed && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. && make -j12
 
 # ENTRYPOINT [ "/bin/bash" ]
 
