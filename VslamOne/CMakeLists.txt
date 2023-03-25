@@ -50,6 +50,9 @@ add_executable(coordinateTransform
 add_executable(sophusExample
   src/sophusExample.cpp)
 
+add_executable(plotError
+  src/trajectoryError.cpp)
+
 # Add the include directory for library A
 target_include_directories(slamIntro
   PUBLIC
@@ -57,6 +60,12 @@ target_include_directories(slamIntro
 )
 
 target_link_libraries(plotTrajectory
+  PRIVATE
+  draw
+  ${Pangolin_LIBRARIES}
+)
+target_link_libraries(plotError
+  Sophus::Sophus
   PRIVATE
   draw
   ${Pangolin_LIBRARIES}
