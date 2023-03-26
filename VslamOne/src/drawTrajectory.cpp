@@ -105,3 +105,20 @@ void DrawTrajectory(
     // sleep 5ms
   }
   }
+  // readTrajectory
+  trajectoryType readTrajectory(const std::string &path) {
+    std::ifstream fin(path);
+    trajectoryType trajectory;
+    if (!fin) {
+      std::cerr << "File not found at" << path << std::endl;
+      return trajectory;
+    }
+    while (!fin.eof()) {
+      double time, tx, ty, tz, qx, qy, qz, w;
+      fin >> time >> tx >> ty >> tz >> qx >> qy >> qz >> w;
+      Sophus::SE3d path(Eigen::Quaterniond(qx, qy, qz, w),
+                        Eigen::Vector3d(tx, ty, tz));
+      trajectory.push_back(path);
+    }
+    return trajectory;
+  }

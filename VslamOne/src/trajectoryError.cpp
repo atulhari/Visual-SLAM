@@ -9,10 +9,7 @@
 
 std::string groundTruthFile = "/path/to/gt";
 std::string estimatedTrajectoryFile = "/path/to/extimate";
-typedef std::vector<Sophus::SE3d, Eigen::aligned_allocator<Sophus::SE3d>>
-    trajectoryType;
-trajectoryType readTrajectory(std::string &path);
-// main
+
 int main(int argc, char **argv) {
   trajectoryType gtTrajectory = readTrajectory(groundTruthFile);
   trajectoryType estimatedTrajectory = readTrajectory(estimatedTrajectoryFile);
@@ -33,22 +30,4 @@ int main(int argc, char **argv) {
   DrawTrajectory(gtTrajectory);
   DrawTrajectory(estimatedTrajectory);
   return 0;
-}
-
-// readTrajectory
-trajectoryType readTrajectory(const std::string &path) {
-  std::ifstream fin(path);
-  trajectoryType trajectory;
-  if (!fin) {
-    std::cerr << "File not found at" << path << std::endl;
-    return trajectory;
-  }
-  while (!fin.eof()) {
-    double time, tx, ty, tz, qx, qy, qz, w;
-    fin >> time >> tx >> ty >> tz >> qx >> qy >> qz >> w;
-    Sophus::SE3d path(Eigen::Quaterniond(qx, qy, qz, w),
-                      Eigen::Vector3d(tx, ty, tz));
-    trajectory.push_back(path);
-  }
-  return trajectory;
 }
