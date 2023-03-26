@@ -62,12 +62,13 @@ target_include_directories(slamIntro
 target_link_libraries(plotTrajectory
   PRIVATE
   draw
+  Sophus::Sophus
   ${Pangolin_LIBRARIES}
 )
 target_link_libraries(plotError
-  Sophus::Sophus
   PRIVATE
   draw
+  Sophus::Sophus
   ${Pangolin_LIBRARIES}
 )
 target_link_libraries(visualizer
