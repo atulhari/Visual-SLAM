@@ -7,8 +7,8 @@
 #include <pangolin/pangolin.h>
 #include <unistd.h>
 
-std::string groundTruthFile = "/path/to/gt";
-std::string estimatedTrajectoryFile = "/path/to/extimate";
+std::string groundTruthFile = "/VslamOne/data/gt.txt";
+std::string estimatedTrajectoryFile = "/VslamOne/data/est_traj.txt";
 
 int main(int argc, char **argv) {
   trajectoryType gtTrajectory = readTrajectory(groundTruthFile);
