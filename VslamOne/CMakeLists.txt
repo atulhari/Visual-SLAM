@@ -18,10 +18,13 @@ ENDIF()
 
 set(Sophus_INCLUDE_DIRS "/VslamOne/Sophus/build/")
 include_directories("/usr/include/eigen3")
+include_directories("/usr/local/lib")
 find_package(Pangolin REQUIRED)
+find_package(OpenCV REQUIRED)
 find_package(Sophus REQUIRED NO_MODULE)
 include_directories(${Sophus_INCLUDE_DIRS})
 include_directories(${Pangolin_INCLUDE_DIRS})
+include_directories(${OpenCV_INCLUDE_DIRS})
 # Add a library intro in the src folder
 add_library(intro
   src/libSlamIntro.cpp
@@ -50,6 +53,9 @@ add_executable(sophusExample
 add_executable(plotError
   src/trajectoryError.cpp)
 
+add_executable(imageBasics
+  src/imageBasics.cpp)
+
 # Add the include directory for library A
 target_include_directories(slamIntro
   PUBLIC
@@ -70,7 +76,12 @@ target_link_libraries(visualizer
   PRIVATE
   ${Pangolin_LIBRARIES}
 )
-target_link_libraries(sophusExample Sophus::Sophus)
+target_link_libraries(sophusExample
+  Sophus::Sophus
+)
+target_link_libraries(imageBasics
+  ${OpenCV_LIBRARIES}
+)
 target_link_libraries(slamIntro
   PRIVATE
   intro
