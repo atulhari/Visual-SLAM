@@ -5,7 +5,7 @@
 # See https://hub.docker.com/r/library/gcc/ for all supported GCC
 # tags from Docker Hub.
 # See https://docs.docker.com/samples/library/gcc/ for more on how to use this image
-FROM gcc:latest
+FROM debian:latest
 
 RUN apt-get update && apt-get install -y cmake sudo ninja-build \
     libeigen3-dev
@@ -29,7 +29,8 @@ RUN apt-get update && \
     build-essential \ 
     libgl1-mesa-dev \
     libglew-dev \
-    git
+    git \
+    software-properties-common
 
 # Clone Pangolin from Github and build it
 RUN git clone https://github.com/stevenlovegrove/Pangolin.git
@@ -48,6 +49,38 @@ RUN git clone  https://github.com/strasdat/Sophus.git
 RUN cd Sophus && mkdir build && cd build && \
     cmake ..  -DUSE_BASIC_LOGGING=ON -DBUILD_SOPHUS_TESTS=OFF -DBUILD_SOPHUS_EXAMPLES=OFF && \
     make && sudo make install
+
+RUN sudo add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main" && \
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5 && \
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 && \
+    apt-get update && apt-get -f install -y \
+    build-essential cmake git pkg-config libgtk-3-dev \
+    libavcodec-dev libavformat-dev libswscale-dev libv4l-dev \
+    libxvidcore-dev libvtk7-dev libpng-dev \
+    gfortran libopenmpi-dev libopenmpi3 libcoarrays-dev libcoarrays-openmpi-dev \
+    libtiff-dev libopenexr-dev libtbb-dev
+
+RUN git clone https://github.com/opencv/opencv.git && \
+    cd opencv && \
+    git checkout 4.2.0 && \
+    mkdir build && \
+    cd build && \
+    cmake \
+    -D CMAKE_BUILD_TYPE=RELEASE \
+    -D CMAKE_INSTALL_PREFIX=/usr/local \
+    -D INSTALL_C_EXAMPLES=ON \
+    -D INSTALL_PYTHON_EXAMPLES=ON \
+    -D WITH_TBB=ON \
+    -D WITH_V4L=ON \
+    -D WITH_QT=OFF \
+    -D WITH_OPENGL=ON \
+    -D BUILD_EXAMPLES=ON .. && \
+    make -j$(nproc) && \
+    make install && \
+    cd ../.. && \
+    rm -rf opencv
+
+
 # Copy the CMakeLists.txt file to the working directory
 COPY CMakeLists.txt .
 
