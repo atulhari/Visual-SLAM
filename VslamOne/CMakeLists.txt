@@ -56,12 +56,17 @@ add_executable(plotError
 add_executable(imageBasics
   src/imageBasics.cpp)
 
+add_executable(imageUndistort
+  src/imageUndistortion.cpp)
 # Add the include directory for library A
 target_include_directories(slamIntro
   PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-
+target_link_libraries(slamIntro
+  PRIVATE
+  intro
+)
 target_link_libraries(plotTrajectory
   PRIVATE
   Sophus::Sophus
@@ -82,10 +87,10 @@ target_link_libraries(sophusExample
 target_link_libraries(imageBasics
   ${OpenCV_LIBRARIES}
 )
-target_link_libraries(slamIntro
-  PRIVATE
-  intro
+target_link_libraries(imageUndistort
+  ${OpenCV_LIBRARIES}
 )
+
 
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Pangolin/build)
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Sophus/build)
