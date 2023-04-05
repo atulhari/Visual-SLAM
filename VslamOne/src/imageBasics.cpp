@@ -30,10 +30,10 @@ int main(int argc, char **argv) {
   // starting a timer
   std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
   // Accessing each element of the image
-  for (size_t y = 0; y < image.rows; y++) {
+  for (size_t y = 0; y < static_cast<size_t>(image.rows); y++) {
     // pointer to the starting element of the image row
     unsigned char *row_ptr = image.ptr<unsigned char>(y);
-    for (size_t x = 0; x < image.cols; x++) {
+    for (size_t x = 0; x < static_cast<size_t>(image.cols); x++) {
       // pointer to the image location (x,y)
       unsigned char *data_ptr = &row_ptr[x * image.channels()];
       for (int c; c != image.channels(); c++) {
