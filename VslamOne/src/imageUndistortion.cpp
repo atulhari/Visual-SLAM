@@ -1,23 +1,22 @@
-#include <opencv2/opencv>
-#include <string>
+#include <opencv2/opencv.hpp>
 
 // This function can be implemented using the cv::undistort function, however,
 // lets try to implement ourselves.
-std::string image_file "/VslamOne/data/distorted.png";
 int main(int argc, char **argv) {
-  assert(argv[1] != NULL);
+  assert((argv[1] != NULL));
 
   // Specify a rad-tan model
-  double k1 = 7, k2 = 21, p1 = 14, p2 = 27;
-  double fx = 250, fy = 270, cx = 286, cy = 299;
+  double k1 = -0.28340811, k2 = 0.07395907, p1 = 0.00019359,
+         p2 = 1.76187114e-05;
+  double fx = 458.654, fy = 457.296, cx = 367.215, cy = 248.375;
   cv::Mat image = cv::imread(argv[1], 0);
-  double rows = image.rows, cols = image.cols;
+  int rows = image.rows, cols = image.cols;
   // Unidistorted image
-  cv::Mat undistorted_image = cv::Mat(rows, cols, CV_8U);
+  cv::Mat undistorted_image = cv::Mat(rows, cols, CV_8UC1);
 
   // Compute the pixels in the undisortred image
-  for (size_t u; u < rows; u++) {
-    for (size_t v, v < cols; v++)
+  for (int u = 0; u < rows; u++) {
+    for (int v = 0; v < cols; v++)
     // We are calculating the pixels in the undistorted image using the radtan
     // model to compute the coordinates in the distorted image
     {
@@ -36,7 +35,7 @@ int main(int argc, char **argv) {
       if (distorted_u >= 0 && distorted_v >= 0 && distorted_u < rows &&
           distorted_v < cols) {
         undistorted_image.at<u_char>(v, u) = image.at<u_char>(
-            static_cast<int> undistorted_v, static_cast<int> undistorted_u);
+            static_cast<int>(distorted_v), static_cast<int>(distorted_u));
       } else {
         undistorted_image.at<u_char>(v, u) = 0;
       }
@@ -46,7 +45,7 @@ int main(int argc, char **argv) {
   cv::imshow("image", image);
   cv::imshow("undistorted image", undistorted_image);
   cv::waitKey(0);
-  cv::destroyAllWindows;
+  cv::destroyAllWindows();
 
   return 0;
 }
