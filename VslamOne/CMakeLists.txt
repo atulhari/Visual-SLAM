@@ -58,6 +58,9 @@ add_executable(imageBasics
 
 add_executable(imageUndistort
   src/imageUndistortion.cpp)
+
+add_executable(stereoVision
+  src/stereoVision.cpp)
 # Add the include directory for library A
 target_include_directories(slamIntro
   PUBLIC
@@ -90,7 +93,10 @@ target_link_libraries(imageBasics
 target_link_libraries(imageUndistort
   ${OpenCV_LIBRARIES}
 )
-
+target_link_libraries(stereoVision
+  ${OpenCV_LIBRARIES}
+  ${Pangolin_LIBRARIES}
+)
 
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Pangolin/build)
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Sophus/build)
