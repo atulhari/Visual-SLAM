@@ -61,6 +61,10 @@ add_executable(imageUndistort
 
 add_executable(stereoVision
   src/stereoVision.cpp)
+
+add_executable(rgbdVision
+  src/rgbdVision.cpp)
+
 # Add the include directory for library A
 target_include_directories(slamIntro
   PUBLIC
@@ -96,6 +100,11 @@ target_link_libraries(imageUndistort
 target_link_libraries(stereoVision
   ${OpenCV_LIBRARIES}
   ${Pangolin_LIBRARIES}
+)
+target_link_libraries(rgbdVision
+  ${OpenCV_LIBRARIES}
+  ${Pangolin_LIBRARIES}
+  Sophus::Sophus
 )
 
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Pangolin/build)
