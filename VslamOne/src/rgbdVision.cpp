@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
     boost::format fmt("%s/%d.%s");
     colorImages.push_back(cv::imread((fmt % colorDir % (i + 1) % "png").str()));
     depthImages.push_back(
-        cv::imread((fmt % colorDir % (i + 1) % "png").str(), -1));
+        cv::imread((fmt % depthDir % (i + 1) % "pgm").str(), -1));
     double data[7] = {0};
     for (auto &d : data)
       fin >> d;
