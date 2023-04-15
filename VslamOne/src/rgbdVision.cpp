@@ -39,8 +39,12 @@ int main(int argc, char **argv) {
                       Eigen::Vector3d(data[0], data[1], data[2]));
     poses.push_back(pose);
   }
-  // Lets read the depth images.
-  double fx = 1, fy = 2, cx = 1, cy = 2, depthScale = 1000.0;
+
+  double cx = 325.5;
+  double cy = 253.5;
+  double fx = 518.0;
+  double fy = 519.0;
+  double depthScale = 1000.0;
 
   std::vector<Vector6d, Eigen::aligned_allocator<Vector6d>> pointcloud;
   pointcloud.reserve(1000000);
@@ -55,18 +59,16 @@ int main(int argc, char **argv) {
           continue;
         Eigen::Vector3d point;
         point[2] = depth / depthScale;
-        point[0] = (u - cx / fx) * point[2];
-        point[1] = (v - cy / fy) * point[2];
+        point[0] = (u - cx) * point[2] / fx;
+        point[1] = (v - cy) * point[2] / fy;
         Eigen::Vector3d worldPoint = T * point;
         Vector6d p;
         p.head<3>() = worldPoint;
         p[5] = colorImage.data[v * colorImage.step + u * colorImage.channels()];
         // blue
-        p[4] = colorImage
-                   .data[v * colorImage.step + u * colorImage.channels() + 1];
+        p[4] = colorImage.data[v * colorImage.step + u * colorImage.channels() + 1];
         // green
-        p[3] = colorImage
-                   .data[v * colorImage.step + u * colorImage.channels() + 2];
+        p[3] = colorImage.data[v * colorImage.step + u * colorImage.channels() + 2];
         // red
         pointcloud.push_back(p);
       }
@@ -110,7 +112,7 @@ void ShowPointcloud(
     glPointSize(2);
     glBegin(GL_POINTS);
     for (auto &p : pointcloud) {
-      glColor3f(p[5], p[4], p[3]);
+      glColor3f(p[3] / 255.0, p[4] / 255.0, p[5] / 255.0);
       glVertex3d(p[0], p[1], p[2]);
     }
     glEnd();
