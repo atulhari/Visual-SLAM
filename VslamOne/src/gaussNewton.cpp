@@ -1,6 +1,7 @@
 #include <Eigen/Core>
 #include <Eigen/Dense>
-#include <iostream.h>
+#include <chrono>
+#include <iostream>
 #include <opencv2/opencv.hpp>
 
 int main(int argc, char **argv) {
@@ -8,10 +9,10 @@ int main(int argc, char **argv) {
   double ar = 1.0, br = 2.0, cr = 1.0;
 
   // Initial estimate
-  double ae = 2.0, be = −1.0, ce = 5.0;
+  double ae = 2.0, be = -1.0, ce = 5.0;
 
   // Number of data points
-  N = 100;
+  int N = 100;
 
   // Noise parameters
   double w_sigma = 1.0;
@@ -23,19 +24,21 @@ int main(int argc, char **argv) {
   std::vector<double> x_data, y_data;
 
   for (int i = 0; i < N; i++)
-    [double x = i / N; x_data.push_back(x);
-        double y =
-            exp(ar * x * x + br * x + cr) + rng.gaussian(w_sigma * w_sigma);
-        y_data.push_back(y);
-    ]
+  {
+    double x = i / N; 
+    x_data.push_back(x);
+      double y =
+          exp(ar * x * x + br * x + cr) + rng.gaussian(w_sigma * w_sigma);
+      y_data.push_back(y);
+  }
 
-        // Gauss Newton
-        chrono::steady_clock::time_point t1 = chrono::steady_clock::now();
+  // Gauss Newton
+  std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
   int iterations = 100;
   double cost = 0, lastCost = 0;
 
   for (int iter = 0; iter < iterations; iter++) {
-    // Hessian Matrix H(dx) = g
+    // Hessian Matrix H * dx = g
     Eigen::Matrix3d H = Eigen::Matrix3d::Zero();
     // bias
     Eigen::Vector3d g = Eigen::Vector3d::Zero();
@@ -55,14 +58,15 @@ int main(int argc, char **argv) {
 
     // solve for H.dx = g
     Eigen::Vector3d dx = H.ldlt().solve(g);
-    if (isnan(dx[0])) {
+    if (isnan(dx[0])) 
+    {
       std::cerr << "Result is nan!" << std::endl;
-      break();
+      break;
     }
 
     if (iter > 0 && cost >= lastCost) {
-      std::error << "Cost" << cost << ">= Last cost" << lastCost << std::endl;
-      break();
+      std::cout<< "Cost" << cost << ">= Last cost" << lastCost << std::endl;
+      break;
     }
 
     ae += dx[0];
@@ -71,11 +75,11 @@ int main(int argc, char **argv) {
     lastCost = cost;
 
     std::cout << "Total cost:" << cost << ",\t\tupdate:" << dx.transpose()
-              << ",\t\testimated params:" << ae << be << ce << Std::endl;
+              << ",\t\testimated params:" << ae << be << ce << std::endl;
   }
-  chrono::steady_clock::time_point t2 = chrono::steady_clock::now();
-  chrono::duration<double> time_used =
-      chrono::duration_cast<chrono::duration<double>>(t2 - t1);
+  std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
+  std::chrono::duration<double> time_used =
+      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
   std::cout << "Total time used:" << time_used.count() << "seconds"
             << std::endl;
   std::cout << "estimated abc = " << ae << ", " << be << ", " << ce

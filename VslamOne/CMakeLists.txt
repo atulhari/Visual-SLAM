@@ -65,6 +65,9 @@ add_executable(stereoVision
 add_executable(rgbdVision
   src/rgbdVision.cpp)
 
+add_executable(gaussNewton
+  src/gaussNewton.cpp)
+
 # Add the include directory for library A
 target_include_directories(slamIntro
   PUBLIC
@@ -105,6 +108,9 @@ target_link_libraries(rgbdVision
   ${OpenCV_LIBRARIES}
   ${Pangolin_LIBRARIES}
   Sophus::Sophus
+)
+target_link_libraries(gaussNewton
+  ${OpenCV_LIBRARIES}
 )
 
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Pangolin/build)
