@@ -30,7 +30,13 @@ RUN apt-get update && \
     libgl1-mesa-dev \
     libglew-dev \
     git \
-    software-properties-common
+    software-properties-common\
+    liblapack-dev\
+    libsuitesparse-dev\
+    libcxsparse3\
+    libgflags-dev\
+    libgoogle-glog-dev\
+    libgtest-dev
 
 # Clone Pangolin from Github and build it
 RUN git clone https://github.com/stevenlovegrove/Pangolin.git
@@ -49,6 +55,11 @@ RUN git clone  https://github.com/strasdat/Sophus.git
 RUN cd Sophus && mkdir build && cd build && \
     cmake ..  -DUSE_BASIC_LOGGING=ON -DBUILD_SOPHUS_TESTS=OFF -DBUILD_SOPHUS_EXAMPLES=OFF && \
     make && sudo make install
+
+RUN git clone https://github.com/ceres-solver/ceres-solver
+RUN cd ceres-solver && mkdir build && cd build && \
+    cmake .. && \
+    cmake --build . && sudo make install 
 
 RUN sudo add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main" && \
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5 && \

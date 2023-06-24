@@ -19,12 +19,15 @@ ENDIF()
 set(Sophus_INCLUDE_DIRS "/VslamOne/Sophus/build/")
 include_directories("/usr/include/eigen3")
 include_directories("/usr/local/lib")
+include_directories("/usr/local/include")
 find_package(Pangolin REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(Ceres REQUIRED)
 find_package(Sophus REQUIRED NO_MODULE)
 include_directories(${Sophus_INCLUDE_DIRS})
 include_directories(${Pangolin_INCLUDE_DIRS})
 include_directories(${OpenCV_INCLUDE_DIRS})
+include_directories(${Ceres_INCLUDE_DIRS})
 # Add a library intro in the src folder
 add_library(intro
   src/libSlamIntro.cpp
