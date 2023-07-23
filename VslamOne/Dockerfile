@@ -100,6 +100,9 @@ COPY data/ data/
 COPY include/ include/
 COPY src/ src/
 
+# Set the working directory to the project directory
+WORKDIR ${PROJECT_DIR}
+
 RUN mkdir VslamOneDeployed
 RUN cd VslamOneDeployed && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. && make -j12
 
