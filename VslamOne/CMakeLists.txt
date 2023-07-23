@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 project(VslamOne)
 
 # Set the C++ standard to C++11
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=deprecated-copy")
 
@@ -71,6 +71,9 @@ add_executable(rgbdVision
 add_executable(gaussNewton
   src/gaussNewton.cpp)
 
+add_executable(ceresSolver
+  src/ceresSolver.cpp)
+
 # Add the include directory for library A
 target_include_directories(slamIntro
   PUBLIC
@@ -115,7 +118,10 @@ target_link_libraries(rgbdVision
 target_link_libraries(gaussNewton
   ${OpenCV_LIBRARIES}
 )
-
+target_link_libraries(ceresSolver
+  ${OpenCV_LIBRARIES}
+  Ceres::ceres
+)
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Pangolin/build)
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Sophus/build)
 # Set the build directory to the build folder
