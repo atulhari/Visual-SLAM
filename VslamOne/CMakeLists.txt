@@ -16,7 +16,11 @@ ELSE()
   message("Release with Debug information build")
 ENDIF()
 
+LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/g2o/cmake_modules)
+SET(G2O_DIR /usr/local/include/g2o)
+
 set(Sophus_INCLUDE_DIRS "/VslamOne/Sophus/build/")
+set(G2O_INCLUDE_DIRS "/usr/local/include/g2o")
 include_directories("/usr/include/eigen3")
 include_directories("/usr/local/lib")
 include_directories("/usr/local/include")
@@ -24,119 +28,123 @@ find_package(Pangolin REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(Ceres REQUIRED)
 find_package(Sophus REQUIRED NO_MODULE)
+find_package(G2O REQUIRED)
 include_directories(${Sophus_INCLUDE_DIRS})
 include_directories(${Pangolin_INCLUDE_DIRS})
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${Ceres_INCLUDE_DIRS})
-# Add a library intro in the src folder
-add_library(intro
+include_directories(${G2O_INCLUDE_DIRS})
+
+  # Add a library intro in the src folder
+  add_library(intro
   src/libSlamIntro.cpp
-)
-add_executable(visualizer
+  )
+  add_executable(visualizer
   src/visualizer.cpp
-)
-add_executable(slamIntro
+  )
+  add_executable(slamIntro
   src/slamIntro.cpp)
 
-add_executable(plotTrajectory
-src/plotTrajectory.cpp)
+  add_executable(plotTrajectory
+  src/plotTrajectory.cpp)
 
-add_executable(eigenMatrix
+  add_executable(eigenMatrix
   src/eigenMatrix.cpp)
 
-add_executable(eigenGeometry
+  add_executable(eigenGeometry
   src/eigenGeometry.cpp)
 
-add_executable(coordinateTransform
+  add_executable(coordinateTransform
   src/coordinateTransform.cpp)
 
-add_executable(sophusExample
+  add_executable(sophusExample
   src/sophusExample.cpp)
 
-add_executable(plotError
+  add_executable(plotError
   src/trajectoryError.cpp)
 
-add_executable(imageBasics
+  add_executable(imageBasics
   src/imageBasics.cpp)
 
-add_executable(imageUndistort
+  add_executable(imageUndistort
   src/imageUndistortion.cpp)
 
-add_executable(stereoVision
+  add_executable(stereoVision
   src/stereoVision.cpp)
 
-add_executable(rgbdVision
+  add_executable(rgbdVision
   src/rgbdVision.cpp)
 
-add_executable(gaussNewton
+  add_executable(gaussNewton
   src/gaussNewton.cpp)
 
-add_executable(ceresSolver
+  add_executable(ceresSolver
   src/ceresSolver.cpp)
 
-# Add the include directory for library A
-target_include_directories(slamIntro
+  # Add the include directory for library A
+  target_include_directories(slamIntro
   PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
-target_link_libraries(slamIntro
+  )
+  target_link_libraries(slamIntro
   PRIVATE
   intro
-)
-target_link_libraries(plotTrajectory
+  )
+  target_link_libraries(plotTrajectory
   PRIVATE
   Sophus::Sophus
   ${Pangolin_LIBRARIES}
-)
-target_link_libraries(plotError
+  )
+  target_link_libraries(plotError
   PRIVATE
   Sophus::Sophus
   ${Pangolin_LIBRARIES}
-)
-target_link_libraries(visualizer
+  )
+  target_link_libraries(visualizer
   PRIVATE
   ${Pangolin_LIBRARIES}
-)
-target_link_libraries(sophusExample
+  )
+  target_link_libraries(sophusExample
   Sophus::Sophus
-)
-target_link_libraries(imageBasics
+  )
+  target_link_libraries(imageBasics
   ${OpenCV_LIBRARIES}
-)
-target_link_libraries(imageUndistort
+  )
+  target_link_libraries(imageUndistort
   ${OpenCV_LIBRARIES}
-)
-target_link_libraries(stereoVision
+  )
+  target_link_libraries(stereoVision
   ${OpenCV_LIBRARIES}
   ${Pangolin_LIBRARIES}
-)
-target_link_libraries(rgbdVision
+  )
+  target_link_libraries(rgbdVision
   ${OpenCV_LIBRARIES}
   ${Pangolin_LIBRARIES}
   Sophus::Sophus
-)
-target_link_libraries(gaussNewton
+  )
+  target_link_libraries(gaussNewton
   ${OpenCV_LIBRARIES}
-)
-target_link_libraries(ceresSolver
+  )
+  target_link_libraries(ceresSolver
   ${OpenCV_LIBRARIES}
   Ceres::ceres
-)
-set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Pangolin/build)
-set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Sophus/build)
-# Set the build directory to the build folder
-set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/VslamOneDeployed)
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/Targets)
-set(LD_LIBRARY_PATH ${LD_LIBRARY_PATH}/usr/local/lib)
+  )
+  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Pangolin/build)
+  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Sophus/build)
 
-# Set the library and include directories
-set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+  # Set the build directory to the build folder
+  set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/VslamOneDeployed)
+  set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/Targets)
+  set(LD_LIBRARY_PATH ${LD_LIBRARY_PATH}/usr/local/lib)
 
-# Add any additional options or flags as needed
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+  # Set the library and include directories
+  set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
-# Optionally set the installation path
-set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)# Optionally set the output directory for the built targets
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/target)
+  # Add any additional options or flags as needed
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+
+  # Optionally set the installation path
+  set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install) # Optionally set the output directory for the built targets
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/target)
