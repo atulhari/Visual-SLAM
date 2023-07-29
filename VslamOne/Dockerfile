@@ -36,7 +36,11 @@ RUN apt-get update && \
     libcxsparse3\
     libgflags-dev\
     libgoogle-glog-dev\
-    libgtest-dev
+    libgtest-dev\
+    # qt5-qmake\
+    # qt5-default\
+    libqglviewer-dev-qt5\
+    libcholmod3
 
 # Clone Pangolin from Github and build it
 RUN git clone https://github.com/stevenlovegrove/Pangolin.git
@@ -56,7 +60,12 @@ RUN cd Sophus && mkdir build && cd build && \
     cmake ..  -DUSE_BASIC_LOGGING=ON -DBUILD_SOPHUS_TESTS=OFF -DBUILD_SOPHUS_EXAMPLES=OFF && \
     make && sudo make install
 
-RUN git clone https://github.com/ceres-solver/ceres-solver
+RUN git clone https://github.com/RainerKuemmerle/g2o.git
+RUN cd g2o && mkdir build && cd build && \
+    cmake .. && \
+    cmake --build . && sudo make install
+
+RUN git clone --recursive https://github.com/ceres-solver/ceres-solver
 RUN cd ceres-solver && mkdir build && cd build && \
     cmake .. && \
     cmake --build . && sudo make install 
