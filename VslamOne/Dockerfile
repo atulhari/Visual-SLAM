@@ -115,13 +115,5 @@ WORKDIR ${PROJECT_DIR}
 RUN mkdir VslamOneDeployed
 RUN cd VslamOneDeployed && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. && make -j12
 
-# ENTRYPOINT [ "/bin/bash" ]
-
-# RUN cd VslamOneDeployed && make
-# # CMD ["./VslamOneDeployed/target/slamIntro"]
-# # CMD ["./VslamOneDeployed/target/eigenMatrix"]
-# # CMD ["./VslamOneDeployed/target/eigenGeometry"]
-# # CMD ["./VslamOneDeployed/target/coordinateTransform"]
-# #CMD ["./VslamOneDeployed/target/plotTrajectory"]
 CMD ["/bin/bash"]
 LABEL Name=vslam Version=0.0.1
