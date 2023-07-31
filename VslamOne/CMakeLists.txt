@@ -81,6 +81,9 @@ include_directories(${G2O_INCLUDE_DIRS})
   add_executable(ceresSolver
   src/ceresSolver.cpp)
 
+  add_executable(g2oCurveFitting
+  src/g2oCurveFitting.cpp)
+
   # Add the include directory for library A
   target_include_directories(slamIntro
   PUBLIC
@@ -129,6 +132,10 @@ include_directories(${G2O_INCLUDE_DIRS})
   ${OpenCV_LIBRARIES}
   Ceres::ceres
   )
+target_link_libraries(g2oCurveFitting
+  ${OpenCV_LIBRARIES}
+  ${G2O_LIBRARIES}
+)
   set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Pangolin/build)
   set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}/Sophus/build)
 
