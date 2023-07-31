@@ -72,7 +72,6 @@ int main(int argc, char **argv) {
   int N = 100;
 
   double wSigma = 1.0;
-  double invSigma = 1.0 / wSigma;
 
   cv::RNG rng;
 
@@ -85,16 +84,49 @@ int main(int argc, char **argv) {
                     rng.gaussian(wSigma * wSigma));
   }
 
+  // create a solver object
   typedef g2o::BlockSolver<g2o::BlockSolverTraits<3, 1>> BlockSolverType;
-  typedef g20::LinearSolverDense<BlockSolverType::PoseMatrixType>
-      LinearSolverDenseType;
+  typedef g2o::LinearSolverDense<BlockSolverType::PoseMatrixType>
+      LinearSolverType;
 
   auto solver = new g2o::OptimizationAlgorithmGaussNewton(
-      g2o::make_unique<BlockSolverType>(g2o::make_unique<linearSolverType>()))
-      g2o::SparseOptimizer optimise;
-  optimise.setAlgorithm(solver);
-  optimise.setVerbose(true);
+      std::make_unique<BlockSolverType>(std::make_unique<LinearSolverType>()));
 
-  CurveFittingVertex* v = new CurveFittingVertex();
+  // Create a optimiser object
+  g2o::SparseOptimizer optimiser;
 
+  optimiser.setAlgorithm(solver);
+  optimiser.setVerbose(true);
+
+  // lets add the vertex
+  CurveFittingVertex *v = new CurveFittingVertex();
+  v->setEstimate(Eigen::Vector3d(ae, be, ce));
+  v->setId(0);
+  optimiser.addVertex(v);
+
+  // Lets add the edge
+  // There are multiple edges and we will loop through the data to add them.
+  for (int i = 0; i < N; i++) {
+    CurveFittingEdge *edge = new CurveFittingEdge(xData[i]);
+    edge->setId(i);
+    edge->setVertex(0, v);
+    edge->setMeasurement(yData[i]);
+    Eigen::Matrix<double, 1, 1> info =
+        Eigen::Matrix<double, 1, 1>::Identity() * 1 / (wSigma * wSigma);
+    edge->setInformation(info);
+    optimiser.addEdge(edge);
+  }
+
+  // Start the optimisation
+  std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+  optimiser.initializeOptimization();
+  optimiser.optimize(10);
+  std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
+  std::chrono::duration<double> timeUsed =
+      std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+
+  // Print results
+  Eigen::Vector3d abcEstimate = v->estimate();
+  std::cout << "Estimated model: " << abcEstimate.transpose() << std::endl;
+  return 0;
 }
