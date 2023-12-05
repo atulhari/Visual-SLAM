@@ -100,20 +100,5 @@ RUN git clone https://github.com/opencv/opencv.git && \
     cd ../.. && \
     rm -rf opencv
 
-
-# Copy the CMakeLists.txt file to the working directory
-COPY CMakeLists.txt .
-
-COPY data/ data/
-# Copy the include and src folders to the working directory
-COPY include/ include/
-COPY src/ src/
-
-# Set the working directory to the project directory
-WORKDIR ${PROJECT_DIR}
-
-RUN mkdir VslamOneDeployed
-RUN cd VslamOneDeployed && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. && make -j12
-
 CMD ["/bin/bash"]
 LABEL Name=vslam Version=0.0.1
