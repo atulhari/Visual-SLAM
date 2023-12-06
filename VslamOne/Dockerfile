@@ -1,17 +1,24 @@
 # GCC support can be specified at major, minor, or micro version
 # (e.g. 8, 8.2 or 8.2.0).
 # Get the base Ubuntu image from Docker Hub
-# FROM ubuntu:20.04
+FROM ubuntu:20.04
 # See https://hub.docker.com/r/library/gcc/ for all supported GCC
 # tags from Docker Hub.
 # See https://docs.docker.com/samples/library/gcc/ for more on how to use this image
-FROM debian:latest
+# FROM debian:latest
+ENV TZ=US \
+    DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y cmake sudo ninja-build \
+RUN apt-get update && \
+    apt-get install tzdata
+
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y \
+    cmake sudo ninja-build \
     libeigen3-dev
 ENV PROJECT_DIR=/VslamOne
 ENV LD_LIBRARY_PATH /usr/local/bin
-WORKDIR ${PROJECT_DIR}
+WORKDIR ${PROJECT_DIR}/lib
 
 # These commands copy your files into the specified directory in the image
 # and set that as the working location
@@ -39,8 +46,8 @@ RUN apt-get update && \
     libgtest-dev\
     # qt5-qmake\
     # qt5-default\
-    libqglviewer-dev-qt5\
-    libcholmod3
+    libqglviewer-dev-qt5
+    # libcholmod3
 
 # Clone Pangolin from Github and build it
 RUN git clone https://github.com/stevenlovegrove/Pangolin.git
