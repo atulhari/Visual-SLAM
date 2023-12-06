@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wno-error=deprecated-copy -Wall -O2 -g -DNDEBUG   CMakeFiles/sophusExample.dir/src/sophusExample.cpp.o  -o Targets/sophusExample  /usr/local/lib/libfmt.a 

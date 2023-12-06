@@ -1,0 +1,2 @@
+/usr/bin/ar qc lib/libintro.a  CMakeFiles/intro.dir/src/libSlamIntro.cpp.o
+/usr/bin/ranlib lib/libintro.a
