@@ -1,1 +1,0 @@
-docker build -t vslam dock:0.0.1

@@ -70,7 +70,7 @@ RUN cd Sophus && mkdir build && cd build && \
 RUN git clone https://github.com/RainerKuemmerle/g2o.git
 RUN cd g2o && mkdir build && cd build && \
     cmake .. && \
-    cmake --build . && sudo make install  && ldconfig
+    cmake --build . && sudo make install
 
 RUN git clone --recursive https://github.com/ceres-solver/ceres-solver
 RUN cd ceres-solver && mkdir build && cd build && \

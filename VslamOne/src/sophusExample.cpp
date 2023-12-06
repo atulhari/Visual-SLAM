@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
     // Consider a small pertubation 
     Vector6d updated_se3;
     updated_se3.setZero();
-    updated_se3(0,0) = 1e-4;
+    updated_se3(0,0) = 1e-4d;
     Sophus::SE3d se3_updated = Sophus::SE3d::exp(updated_se3) * SE3_Rt;
     std::cout<<"Updated SE3 matrix"<<se3_updated.matrix()<<::std::endl;
 
